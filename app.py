@@ -6,14 +6,14 @@ from correction import post_process
 
 # from autocorrect import Speller
 
-import spacy
-from spacy.matcher import Matcher
-import en_core_web_sm
-
-nlp = en_core_web_sm.load()
-
-# nlp = spacy.load('en_core_web_sm')
-matcher = Matcher(nlp.vocab)
+# import spacy
+# from spacy.matcher import Matcher
+# import en_core_web_sm
+#
+# nlp = en_core_web_sm.load()
+#
+# # nlp = spacy.load('en_core_web_sm')
+# matcher = Matcher(nlp.vocab)
 app = Flask(__name__)
 
 
