@@ -4,7 +4,7 @@ from flask import Flask, request
 
 from correction import post_process
 
-# from autocorrect import Speller
+from autocorrect import Speller
 
 # import spacy
 # from spacy.matcher import Matcher
@@ -17,20 +17,10 @@ from correction import post_process
 app = Flask(__name__)
 
 
-@app.route('/hey')
-def process_array():
-    ocr_array = '{FBS]'
-
-    only_string = " ".join(re.findall('[a-zA-Z]+', ocr_array))
-    print(only_string)
-
-    return ocr_array
-
-
-# @app.route('/hey')
+# @app.route('/spell')
 # def hey():
 #     spell = Speller()
-#     return spell('{fbs]')
+#     return spell('court')
 
 
 @app.route('/corrections', methods=["POST"])

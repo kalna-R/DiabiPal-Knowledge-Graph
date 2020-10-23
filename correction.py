@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 # library to create a network
 import networkx as nx
 import spacy
+from flask import jsonify
 
 triples = []
 
@@ -60,6 +61,26 @@ def processUnits(row):
         return
 
 
+# function to extract subject, relation and object for ref range
+def processRange(row):
+    subj = ''
+    objct = ''
+    relation = ''
+    triple = []
+
+    if row['Range'] != '':
+        subj = row['TestName']
+        objct = row['Range']
+        relation = 'range'
+
+        triple = [subj.lower(), relation, objct]
+        # print(triple)
+        return triple
+
+    else:
+        return
+
+
 # draw the knowledge graph
 def printGraph(triples):
     # initialize graph object
@@ -103,6 +124,10 @@ def wordCorrection(G, data):
 
     in_nodes, out_nodes = hasNode(G, name)
 
+    if not in_nodes and not out_nodes:
+        return jsonify({'Error': 'Unable to identify your report. Please try again'})
+        # return json.dumps({'Error': 'Unable to process test type'})
+
     if in_nodes:
         for u, v, keys, relation in in_nodes:
             # print("values for glucose", u, v)
@@ -119,7 +144,7 @@ def wordCorrection(G, data):
 
     if out_nodes:
         for u1, v1, keys, relation in out_nodes:
-            print("values for glucose", u1, v1)
+            # print("values for glucose", u1, v1)
 
             # units correction
             if relation == 'unit' and data['UNIT'] != v1:
@@ -133,7 +158,7 @@ def wordCorrection(G, data):
 
 
 def post_process(ocr_array):
-    # path to the dataset csv file
+    # path to the dataset csv file which is published online
     path = r'https://docs.google.com/spreadsheets/d/e/2PACX-1vRFOFNO-1FTpeJc-u0vHtzh8VrO7cg4M19Nxff82FCc' \
            r'-QAA1lTTtLFXyuWzmKvsrUbkCPKuMEjdfC27/pub?output=csv '
     # dataframe of data
@@ -152,11 +177,18 @@ def post_process(ocr_array):
         if units:
             triples.append(units)
 
+        # identify ref ranges
+        refRange = processRange(row)
+        if refRange:
+            triples.append(refRange)
+
     # execute the graph
     graph = printGraph(triples)
 
     out_array = wordCorrection(graph, ocr_array)
 
-    final_array = json.dumps(out_array)
-    print("Final array", final_array)
-    return final_array
+    # convert to json string
+    # final_array = out_array
+    # final_array = json.dumps(out_array)
+    print("Final array", out_array)
+    return out_array
