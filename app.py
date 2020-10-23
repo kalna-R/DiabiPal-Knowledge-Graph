@@ -1,11 +1,14 @@
 import re
 
 from flask import Flask, request
-
 from correction import post_process
+from flask_cors import CORS
 
-from autocorrect import Speller
+app = Flask(__name__)
+cors = CORS(app)
 
+
+# from autocorrect import Speller
 # import spacy
 # from spacy.matcher import Matcher
 # import en_core_web_sm
@@ -14,9 +17,6 @@ from autocorrect import Speller
 #
 # # nlp = spacy.load('en_core_web_sm')
 # matcher = Matcher(nlp.vocab)
-app = Flask(__name__)
-
-
 # @app.route('/spell')
 # def hey():
 #     spell = Speller()
