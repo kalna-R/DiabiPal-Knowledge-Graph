@@ -125,8 +125,8 @@ def wordCorrection(G, data):
     in_nodes, out_nodes = hasNode(G, name)
 
     if not in_nodes and not out_nodes:
-        return jsonify({'Error': 'Unable to identify your report. Please try again'})
-        # return json.dumps({'Error': 'Unable to process test type'})
+        # return jsonify({'Error': 'Unable to identify your report. Please try again'})
+        return json.dumps({'Error': 'Unable to identify your report type. Please try again'})
 
     if in_nodes:
         for u, v, keys, relation in in_nodes:
@@ -186,6 +186,7 @@ def post_process(ocr_array):
     graph = printGraph(triples)
 
     out_array = wordCorrection(graph, ocr_array)
+    print(out_array)
 
     # convert to json string
     # final_array = out_array
