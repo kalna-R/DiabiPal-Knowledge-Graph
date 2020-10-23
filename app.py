@@ -1,3 +1,4 @@
+import json
 import re
 
 from flask import Flask, request
@@ -30,7 +31,7 @@ def post_processing():
 
     corrected_array = post_process(data)
 
-    return corrected_array
+    return json.dumps(corrected_array)
 
 
 if __name__ == '__main__':
