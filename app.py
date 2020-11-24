@@ -26,6 +26,7 @@ cors = CORS(app)
 
 @app.route('/corrections', methods=["POST"])
 def post_processing():
+
     # skip the content requirement by force=True
     data = request.get_json(force=True)
 
@@ -35,5 +36,5 @@ def post_processing():
 
 
 if __name__ == '__main__':
-    # app.run(debug=True)
-    app.run(port=3000)
+    app.run(debug=True)
+    # app.run(port=3000)
