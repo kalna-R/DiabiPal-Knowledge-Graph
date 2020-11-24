@@ -7,16 +7,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 # library to create a network
 import networkx as nx
-import spacy
+# from correctionNlp import processRowNLP
 from flask import jsonify
 
-triples = []
+# triples = []
 
 
 # function to read file
 def readFile(path):
     # read data from the excel file
-    dataframe = pd.read_csv(path)
+    dataframe = pd.read_csv(path, error_bad_lines=False)
     df = dataframe.fillna('')
 
     return df.astype(str)
@@ -100,8 +100,8 @@ def printGraph(triples):
             cmap=plt.cm.Blues, labels={node: node for node in G.nodes()})
     nx.draw_networkx_edge_labels(G, pos, label_pos=0.5, font_size=10, font_color='k', font_family='sans-serif',
                                  font_weight='normal')
-    # plt.axis('off')
-    # plt.show()
+    plt.axis('off')
+    plt.show()
 
     return G
 
@@ -164,6 +164,8 @@ def post_process(ocr_array):
     # dataframe of data
     df = readFile(path)
 
+    triples = []
+
     # process row by row to find triples
     for index, row in df.iterrows():
 
@@ -181,6 +183,9 @@ def post_process(ocr_array):
         refRange = processRange(row)
         if refRange:
             triples.append(refRange)
+
+        # nlp
+        # processRowNLP(row)
 
     # execute the graph
     graph = printGraph(triples)
