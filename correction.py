@@ -16,7 +16,7 @@ from flask import jsonify
 # function to read file
 def readFile(path):
     # read data from the excel file
-    dataframe = pd.read_csv(path, error_bad_lines=False)
+    dataframe = pd.read_csv(path)
     df = dataframe.fillna('')
 
     return df.astype(str)
