@@ -9,24 +9,8 @@ app = Flask(__name__)
 cors = CORS(app)
 
 
-# from autocorrect import Speller
-# import spacy
-# from spacy.matcher import Matcher
-# import en_core_web_sm
-#
-# nlp = en_core_web_sm.load()
-#
-# # nlp = spacy.load('en_core_web_sm')
-# matcher = Matcher(nlp.vocab)
-# @app.route('/spell')
-# def hey():
-#     spell = Speller()
-#     return spell('court')
-
-
 @app.route('/corrections', methods=["POST"])
 def post_processing():
-
     # skip the content requirement by force=True
     data = request.get_json(force=True)
 
@@ -36,5 +20,4 @@ def post_processing():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
-    # app.run(port=3000)
+    app.run(debug="true", port=3000)
